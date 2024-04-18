@@ -7,4 +7,4 @@ class User(AbstractUser):
     following_count = models.IntegerField(default=0)
 
     # People who the user is following them
-    following = models.ManyToManyField('self', symmetrical=False)
+    following = models.ManyToManyField('self', symmetrical=False, null=True)

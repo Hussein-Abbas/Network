@@ -68,5 +68,3 @@ def new_post(request):
         user = request.user
         content = request.POST['content']
         Post.objects.create(poster=user, content=content)
-
-    return render(request, "network/new_post.html")

@@ -5,3 +5,18 @@
 #content {
     height: 120px;
 }
+
+.post {
+    border: 1px solid black;
+    margin: 20px 0;
+    padding: 7px 12px;
+}
+
+.poster {
+    font-weight: 600;
+}
+
+.date {
+    font-size: 13px;
+    color: gray;
+}

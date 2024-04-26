@@ -21,7 +21,9 @@
     <div id="all_posts">
         {% for post in all_posts %}
             <div class="post">
-                <div class="poster">{{ post.poster }}</div>
+                <div class="poster">
+                    <a href="{% url 'profile' post.poster %}">{{ post.poster }}</a>
+                </div>
                 <div class="content">{{ post.content }}</div>
                 <div class="date">{{ post.date }}</div>
                 <div class="likes">{{ post.likes }} like</div>

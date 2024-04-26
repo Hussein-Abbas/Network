@@ -1,0 +1,38 @@
+{% extends "network/layout.html" %}
+
+{% block title %} {{ poster }} {% endblock %}
+
+{% block body %}
+    <h2>{{ poster }}</h2>
+
+    {% if user.is_authenticated and user != poster %}
+        <form action="{% url 'follow' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="poster" value="{{ poster }}" hidden>
+            {% if is_user_follow_him %}
+                <button name="follow" value="unfollow" type="submit" class="btn btn-danger">Unfollow</button>
+            {% else %}
+                <button name="follow" value="follow" type="submit" class="btn btn-primary">Follow</button>
+            {% endif %}
+        </form>
+    {% endif %}
+    <span id="followers">Followers: {{ user_followers_count }}</span>
+    <span id="following">Following: {{ user_following_count }}</span>
+
+    <div id="posts">
+        {% for post in posts %}
+            <div class="post">
+                <div class="poster">
+                    <a href="{% url 'profile' post.poster %}">{{ post.poster }}</a>
+                </div>
+                <div class="content">{{ post.content }}</div>
+                <div class="date">{{ post.date }}</div>
+                <div class="likes">{{ post.likes }} like</div>
+            </div>
+        {% empty %}
+            <div class="post">
+                no posts
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

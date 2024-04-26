@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 from .models import *
 
@@ -74,7 +75,7 @@ def new_post(request):
 
 
 def profile(request, username):
-    poster = User.objects.get(username=username)
+    poster = get_object_or_404(User, username=username)
 
     poster_followers_count = poster.followers.count()
     poster_following_count = poster.following.count()
@@ -100,3 +101,13 @@ def follow(request):
         else:
             request.user.following.remove(poster)
         return HttpResponseRedirect(reverse('profile', args=[poster]))
+
+
+@login_required(login_url='login')
+def following(request):
+    following_posts = Post.objects.filter(poster__in=request.user.following.all())
+    return render(request, "network/following.html", {
+        "posts": following_posts,
+    })
+
+

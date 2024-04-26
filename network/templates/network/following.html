@@ -1,0 +1,21 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <h2>Following posts</h2>
+    <hr>
+
+    {% for post in posts %}
+        <div class="post">
+            <div class="poster">
+                <a href="{% url 'profile' post.poster %}">{{ post.poster }}</a>
+            </div>
+            <div class="content">{{ post.content }}</div>
+            <div class="date">{{ post.date }}</div>
+            <div class="likes">{{ post.likes }} like</div>
+        </div>
+    {% empty %}
+        <div class="post">
+            no posts
+        </div>
+    {% endfor %}
+{% endblock %}

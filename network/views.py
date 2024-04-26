@@ -3,9 +3,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import *
-
 
 def index(request):
     return render(request, "network/index.html", {
@@ -65,8 +65,38 @@ def register(request):
         return render(request, "network/register.html")
 
 
+@login_required(login_url='login')
 def new_post(request):
     if request.method == 'POST':
         user = request.user
         content = request.POST['content']
         Post.objects.create(poster=user, content=content)
+
+
+def profile(request, username):
+    poster = User.objects.get(username=username)
+
+    poster_followers_count = poster.followers.count()
+    poster_following_count = poster.following.count()
+    poster_posts = poster.posts.order_by('-date')
+    is_user_follow_him = poster in request.user.following.all()
+
+    return render(request, "network/profile.html", {
+    "poster": poster,
+    "user_followers_count": poster_followers_count,
+    "user_following_count": poster_following_count,
+    "posts": poster_posts,
+    "is_user_follow_him": is_user_follow_him
+    })
+
+
+def follow(request):
+    if request.method == "POST":
+        poster = User.objects.get(username=request.POST.get('poster'))
+        follow = request.POST.get('follow') == 'follow'
+
+        if follow:
+            request.user.following.add(poster)
+        else:
+            request.user.following.remove(poster)
+        return HttpResponseRedirect(reverse('profile', args=[poster]))

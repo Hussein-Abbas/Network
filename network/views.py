@@ -5,12 +5,17 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator
 
 from .models import *
 
-def index(request):
+posts_count_per_page = 2
+def index(request, page_number=1):
+    p = Paginator(Post.objects.all(), posts_count_per_page)
+    current_page = p.page(page_number)
     return render(request, "network/index.html", {
-        "all_posts": Post.objects.all()
+        "current_page": current_page,
+        "pages": p,
     })
 
 
@@ -72,22 +77,26 @@ def new_post(request):
         user = request.user
         content = request.POST['content']
         Post.objects.create(poster=user, content=content)
+    return HttpResponseRedirect(reverse('index'))
 
 
-def profile(request, username):
+def profile(request, username, page_number=1):
     poster = get_object_or_404(User, username=username)
 
     poster_followers_count = poster.followers.count()
     poster_following_count = poster.following.count()
     poster_posts = poster.posts.order_by('-date')
+    p = Paginator(poster_posts, posts_count_per_page)
+    current_page = p.page(page_number)
     is_user_follow_him = poster in request.user.following.all()
 
     return render(request, "network/profile.html", {
-    "poster": poster,
-    "user_followers_count": poster_followers_count,
-    "user_following_count": poster_following_count,
-    "posts": poster_posts,
-    "is_user_follow_him": is_user_follow_him
+        "poster": poster,
+        "user_followers_count": poster_followers_count,
+        "user_following_count": poster_following_count,
+        "current_page": current_page,
+        "pages": p,
+        "is_user_follow_him": is_user_follow_him
     })
 
 
@@ -104,10 +113,13 @@ def follow(request):
 
 
 @login_required(login_url='login')
-def following(request):
+def following(request, page_number=1):
     following_posts = Post.objects.filter(poster__in=request.user.following.all())
+    p = Paginator(following_posts, posts_count_per_page)
+    current_page = p.page(page_number)
     return render(request, "network/following.html", {
-        "posts": following_posts,
+        "current_page": current_page,
+        "pages": p,
     })
 
 

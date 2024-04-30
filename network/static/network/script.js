@@ -1,27 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("editPostForm").addEventListener("submit", function(event) {
-        const content = document.querySelector('#content').value;
-        const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        const post_id = document.querySelector('#post_id').value;
+    document.querySelectorAll('.like-btn').forEach(function(button) {
+        button.addEventListener('click', () => {
+            const post_id = button.dataset.id;
 
-        fetch(`/edit/${post_id}`, {
-            method: "POST",
-            body: JSON.stringify({
-                content: content
-            }),
-            headers: {
-                "X-CSRFToken": csrfTokenElement,
+            // Change status that user can see it
+            let likesCount = button.parentElement.firstElementChild;
+            if (button.innerHTML == '❤️') {
+                button.innerHTML = '🤍';
+                if (parseInt(likesCount.innerHTML) > 0) {
+                    likesCount.innerHTML = parseInt(likesCount.innerHTML) - 1;
+                }
             }
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            else {
+                button.innerHTML = '❤️'
+                likesCount.innerHTML = parseInt(likesCount.innerHTML) + 1;
+            }
 
-        // Stop form from submitting
-        return false;
+            let csrfTokenElement = document.querySelector('#csrf_token').firstElementChild.value;
+            // Make a PUT request to serevre to save the change
+            fetch('like', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    post_id: post_id
+                }),
+                headers: {
+                    "X-CSRFToken": csrfTokenElement,
+                }
+            })
+        });
     });
 });

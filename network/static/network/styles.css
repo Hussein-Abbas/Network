@@ -32,3 +32,8 @@
 .btn {
     margin-right: 20px;
 }
+
+.like-btn {
+    text-decoration: none;
+    cursor: pointer;
+}

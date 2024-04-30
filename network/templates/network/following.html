@@ -11,7 +11,14 @@
             </div>
             <div class="content">{{ post.content }}</div>
             <div class="date">{{ post.date }}</div>
-            <div class="likes">{{ post.likes.count }} like</div>
+            <div class="likes">
+                <span>{{ post.liked_by.count }}</span>
+                {% if post in user.likes.all %}
+                    <a class="like-btn" data-id="{{ post.pk }}">❤️</a>
+                {% else %}
+                    <a class="like-btn" data-id="{{ post.pk }}">🤍</a>
+                {% endif %}
+            </div>
         </div>
     {% empty %}
         <div class="post">

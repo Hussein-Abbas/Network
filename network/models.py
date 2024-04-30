@@ -1,12 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.core.validators import MinValueValidator
 
 
 class User(AbstractUser):
     following = models.ManyToManyField('self', related_name='followers', symmetrical=False, null=True, blank=True)
-    likes = models.ForeignKey('Post', related_name='likes', on_delete=models.CASCADE, null=True, blank=True)
-
+    likes = models.ManyToManyField('Post', related_name='liked_by', blank=True)
 
     def __str__(self):
         return self.username

@@ -137,3 +137,19 @@ def edit(request, post_id):
     object.save()
 
     return JsonResponse({'message': 'Edit operation accomplished successfully'}, status=200)
+
+
+@login_required(login_url="login")
+def like(request):
+    if request.method != "PUT":
+        return JsonResponse({"error": "like view accept only PUT request method"}, status=404)
+
+    post_id = int(json.loads(request.body).get("post_id"))
+    post = get_object_or_404(Post, pk=post_id)
+
+    if post in request.user.likes.all():
+        request.user.likes.remove(post)
+        return JsonResponse({"message": f"Remove like from post {post_id}"}, status=200)
+    
+    request.user.likes.add(post)
+    return JsonResponse({"message": f"Add like to post {post_id}"}, status=200)

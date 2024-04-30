@@ -1,0 +1,17 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <h2>Edit post</h2>
+    <hr>
+    <form id="editPostForm" onsubmit="return false;">
+        {% csrf_token %}
+        <input id="post_id" type="number" required hidden value="{{ post_id }}">
+        <div class="form-group input-group">
+            <textarea required name="content" name="content" id="content" class="form-control custom-textarea" placeholder="What is happening?!">{{ content }}</textarea>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </form>
+    <hr>
+{% endblock %}

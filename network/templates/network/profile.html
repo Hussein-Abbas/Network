@@ -28,6 +28,9 @@
                 <div class="content">{{ post.content }}</div>
                 <div class="date">{{ post.date }}</div>
                 <div class="likes">{{ post.likes }} like</div>
+                {% if post.poster == user %}
+                    <div><a href="{% url 'edit' post.pk %}">Edit</a></div>
+                {% endif %}
             </div>
         {% empty %}
             <div class="post">

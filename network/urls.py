@@ -13,6 +13,7 @@ urlpatterns = [
     path("follow", views.follow, name="follow"),
     path("following/<int:page_number>", views.following, name="following"),
     path("following", views.following, name="following"),
+    path("edit/<int:post_id>", views.edit, name="edit"),
     path("<str:username>/<int:page_number>/", views.profile, name="profile"),
     path("<str:username>/", views.profile, name="profile"),
 

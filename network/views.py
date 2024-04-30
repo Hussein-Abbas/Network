@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
+import json
+from django.http import JsonResponse
 
 from .models import *
 
@@ -123,3 +125,21 @@ def following(request, page_number=1):
     })
 
 
+@login_required(login_url="login")
+def edit(request, post_id):
+    if request.method == "GET":
+        return render(request, "network/edit.html", {
+            "content": get_object_or_404(Post, pk=post_id, poster=request.user),
+            "post_id": post_id,
+        })
+    
+    try:
+        object = get_object_or_404(Post, pk=post_id, poster=request.user)
+    except Exception:
+        return JsonResponse({'error': 'Invalid post'}, status=404)
+    
+    content = json.loads(request.body).get("content")
+    object.content = content
+    object.save()
+
+    return JsonResponse({'message': 'Edit operation accomplished successfully'}, status=200)

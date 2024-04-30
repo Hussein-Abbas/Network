@@ -11,7 +11,7 @@
             </div>
             <div class="content">{{ post.content }}</div>
             <div class="date">{{ post.date }}</div>
-            <div class="likes">{{ post.likes }} like</div>
+            <div class="likes">{{ post.likes.count }} like</div>
         </div>
     {% empty %}
         <div class="post">

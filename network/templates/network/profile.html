@@ -9,15 +9,15 @@
         <form action="{% url 'follow' %}" method="post">
             {% csrf_token %}
             <input type="text" name="poster" value="{{ poster }}" hidden>
-            {% if is_user_follow_him %}
+            {% if poster in user.following.all %}
                 <button name="follow" value="unfollow" type="submit" class="btn btn-danger">Unfollow</button>
             {% else %}
                 <button name="follow" value="follow" type="submit" class="btn btn-primary">Follow</button>
             {% endif %}
         </form>
     {% endif %}
-    <span id="followers">Followers: {{ user_followers_count }}</span>
-    <span id="following">Following: {{ user_following_count }}</span>
+    <span id="followers">Followers: {{ user.followers.count }}</span>
+    <span id="following">Following: {{ user.following.count }}</span>
 
     <div id="posts">
         {% for post in current_page %}
@@ -27,7 +27,7 @@
                 </div>
                 <div class="content">{{ post.content }}</div>
                 <div class="date">{{ post.date }}</div>
-                <div class="likes">{{ post.likes }} like</div>
+                <div class="likes">{{ post.likes.count }} like</div>
                 {% if post.poster == user %}
                     <div><a href="{% url 'edit' post.pk %}">Edit</a></div>
                 {% endif %}

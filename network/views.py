@@ -85,20 +85,14 @@ def new_post(request):
 def profile(request, username, page_number=1):
     poster = get_object_or_404(User, username=username)
 
-    poster_followers_count = poster.followers.count()
-    poster_following_count = poster.following.count()
     poster_posts = poster.posts.order_by('-date')
     p = Paginator(poster_posts, posts_count_per_page)
     current_page = p.page(page_number)
-    is_user_follow_him = poster in request.user.following.all()
 
     return render(request, "network/profile.html", {
         "poster": poster,
-        "user_followers_count": poster_followers_count,
-        "user_following_count": poster_following_count,
         "current_page": current_page,
         "pages": p,
-        "is_user_follow_him": is_user_follow_him
     })
 
 

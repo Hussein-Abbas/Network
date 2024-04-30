@@ -26,7 +26,7 @@
                 </div>
                 <div class="content">{{ post.content }}</div>
                 <div class="date">{{ post.date }}</div>
-                <div class="likes">{{ post.likes }} like</div>
+                <div class="likes">{{ post.likes.count }} like</div>
                 {% if post.poster == user %}
                     <div><a href="{% url 'edit' post.pk %}">Edit</a></div>
                 {% endif %}

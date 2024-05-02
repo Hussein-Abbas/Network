@@ -34,7 +34,8 @@
                     {% else %}
                         <a class="like-btn" data-id="{{ post.pk }}">🤍</a>
                     {% endif %}
-                </div>                {% if post.poster == user %}
+                </div>                
+                {% if post.poster == user %}
                     <div><a href="{% url 'edit' post.pk %}">Edit</a></div>
                 {% endif %}
             </div>

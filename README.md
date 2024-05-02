@@ -36,5 +36,8 @@ To get started with this project, follow these instructions:
 - **Edit Post**: Users can edit their own posts.
 - **Like and Unlike**: Users can like/unlike posts asynchronously without page reload.
 
+## ## Video Demo
+Check out the [video demo](https://youtu.be/KSQRhmyBujg) to see the project in action!
+
 ## Acknowledgements
 Many thanks to the CS50W staff for the high quality of education and the assignments for our rapid development.

@@ -11,7 +11,9 @@ from django.http import JsonResponse
 
 from .models import *
 
-posts_count_per_page = 2
+posts_count_per_page = 10
+
+
 def index(request, page_number=1):
     posts = Post.objects.all().order_by('-date')
     p = Paginator(posts, posts_count_per_page)

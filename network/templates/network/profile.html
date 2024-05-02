@@ -16,8 +16,8 @@
             {% endif %}
         </form>
     {% endif %}
-    <span id="followers">Followers: {{ user.followers.count }}</span>
-    <span id="following">Following: {{ user.following.count }}</span>
+    <span id="followers">Followers: {{ poster.followers.count }}</span>
+    <span id="following">Following: {{ poster.following.count }}</span>
 
     <div id="posts">
         {% for post in current_page %}

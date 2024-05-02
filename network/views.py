@@ -13,7 +13,8 @@ from .models import *
 
 posts_count_per_page = 2
 def index(request, page_number=1):
-    p = Paginator(Post.objects.all(), posts_count_per_page)
+    posts = Post.objects.all().order_by('-date')
+    p = Paginator(posts, posts_count_per_page)
     current_page = p.page(page_number)
     return render(request, "network/index.html", {
         "current_page": current_page,

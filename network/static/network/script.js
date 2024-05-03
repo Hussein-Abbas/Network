@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let csrfTokenElement = document.querySelector('#csrf_token').firstElementChild.value;
             // Make a PUT request to serevre to save the change
-            fetch('like', {
+            fetch('/like', {
                 method: 'PUT',
                 body: JSON.stringify({
                     post_id: post_id
@@ -26,6 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     "X-CSRFToken": csrfTokenElement,
                 }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.log(error);
             })
         });
     });

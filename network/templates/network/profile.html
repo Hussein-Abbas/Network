@@ -20,6 +20,9 @@
     <span id="following">Following: {{ poster.following.count }}</span>
 
     <div id="posts">
+        <form>
+            <div id="csrf_token">{% csrf_token %}</div>
+        </form>
         {% for post in current_page %}
             <div class="post">
                 <div class="poster">

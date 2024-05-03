@@ -3,7 +3,9 @@
 {% block body %}
     <h2>Following posts</h2>
     <hr>
-
+    <form>
+        <div id="csrf_token">{% csrf_token %}</div>
+    </form>
     {% for post in current_page %}
         <div class="post">
             <div class="poster">

@@ -36,7 +36,7 @@ To get started with this project, follow these instructions:
 - **Edit Post**: Users can edit their own posts.
 - **Like and Unlike**: Users can like/unlike posts asynchronously without page reload.
 
-## ## Video Demo
+## Video Demo
 Check out the [video demo](https://youtu.be/KSQRhmyBujg) to see the project in action!
 
 ## Acknowledgements
